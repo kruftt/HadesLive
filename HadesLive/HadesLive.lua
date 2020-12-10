@@ -55,7 +55,7 @@ end
 
 
 
-twitch_cb_arrs = {}
+local twitch_cb_arrs = {}
 
 HadesLive.sendTwitch = function (target, message)
   HadesLive.Send('twitch-send', { target = target, message = message })
