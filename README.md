@@ -15,11 +15,10 @@ Warning! Backup save files before using.
 1. Launch the x86 executable at `...\Steam\steamapps\common\Hades\x86\Hades.exe` or equivalent.
 1. Load a save file and start playing.
 
-&nbsp;  
 &nbsp;
 
 ## API
----
+
 HadesLive provides an api for communication between Hades and local javascript and implements basic twitch integration. The twitch wrapper functions can be used to communicate with the twitch PubSub api, provided HadesLive.js is running locally in a twitch environment (In the streamer's twitch dashboard via an extension).
 
 ### Lua
