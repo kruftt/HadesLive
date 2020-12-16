@@ -29,10 +29,16 @@ thread(monitorConnection)
 
 HadesLive.send = function (config)
   if Connection.Status ~= 'open' then
-    log('WARNING - Failed to send message, connection closed.')
+    log('WARNING - Failed to send message, connection not open.')
     return
   end
-  Connection.Send(json.encode(config))
+  
+  log(TableToJSONString(config))
+  log('Encoding')
+  log(json.encode)
+  local encoded = json.encode(config)
+  log('Sending')
+  Connection.Send(encoded)
 end
 
 HadesLive.on = function (target, callback)

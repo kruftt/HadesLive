@@ -182,8 +182,8 @@ const Twitch = (function() {
   const replaceB64URL = (ch) => (ch === '+') ? '-' : '_'
 
   Twitch.send = async function (config) {
-    if (!config.client_id || !config.secret) {
-      _twitch_error.textContent = 'Twitch.send requires a client_id and secret.'
+    if (!config.client_id || !config.secret || !config.message) {
+      _twitch_error.textContent = 'Twitch.send requires a client_id, secret, and message.'
       return
     }
     
@@ -210,7 +210,7 @@ const Twitch = (function() {
         data: {
           content_type: 'application/json',
           targets: [ 'broadcast' ],
-          message: JSON.stringify(message),
+          message: JSON.stringify(config.message),
         },
       })
     } catch (err) {

@@ -89,20 +89,20 @@ Connection.Send = function (msg)
     log('Warning: Exceeded Max Message size. Message not sent.')
     return
   end
-  -- log('sending websocket frame')
+  log('sending websocket frame')
   sent, err = client:send(char(129))
   if not err then
     if msg_len < 126 then
       sent, err = client:send(char(msg_len))
     elseif msg_len < 0xffff then
-      -- log('sending medium message')
+      log('sending medium message')
       client:send(char(
         126,
         band(rshift(msg_len, 8), 0xff),
         band(msg_len, 0xff)
       ))
     else
-      -- log('sending large message')
+      log('sending large message')
       sent, err = client:send(char(
         127, 0, 0, 0, 0,
         band(rshift(msg_len, 24), 0xff),

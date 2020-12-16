@@ -1,7 +1,7 @@
 -:
-  name: Twitch Base Integration
+  name: Hades Live
   author: Kruft
-  description: Provides communication with twitch for use by other mods.
+  description: Provides communication with the browser and twitch for use by other mods.
 :-
 
 :: Import "File.lua" :: Import file
