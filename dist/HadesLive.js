@@ -2148,10 +2148,6 @@
         cb(...arguments);
     }
     
-    // const _client_id = "5yjdlxjg4nkz8cuw7youghmfi3s2gp"
-    // const oauth_secret = "1pway03aps2dnnwkodad51qvisdmyl"
-    // let oauth_token = null
-    // let _nonce = null
     let _client = null;
     let _channel_name = null;
     let _channel_id = null;
@@ -2206,7 +2202,6 @@
       });
     };
 
-    // -owner-id "190203785"
     const kty = 'oct';
     const alg = 'HS256';
     const replaceB64URL = (ch) => (ch === '+') ? '-' : '_';
