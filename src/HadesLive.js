@@ -3,7 +3,6 @@ import parseJwk from 'jose/jwk/parse'
 import SignJWT from 'jose/jwt/sign'
 import './tmi.min.js'
 
-
 const Hades = (function () {
   const Hades = {}
   const _cb_arrs = {}
@@ -81,7 +80,6 @@ const Hades = (function () {
   return Hades
 })()
 
-
 const Twitch = (function() {
   const Twitch = {}
   const tmi = window.tmi
@@ -142,10 +140,15 @@ const Twitch = (function() {
       return
     }
 
+    _channel_name = twitch__channel_name.value
+    if (!_channel_name) {
+      _twitch_error.textContent = 'Please enter a channel name.'
+      return
+    }
     _twitch_error.textContent = ''
     _status.textContent = 'Connecting...'
     _dot.className = 'connection__dot connection__dot--scanning'
-    _channel_name = twitch__channel_name.value
+       
 
     axios({
       method: 'GET',
@@ -181,7 +184,6 @@ const Twitch = (function() {
   // -owner-id "190203785"
   const kty = 'oct'
   const alg = 'HS256'
-  const k = "ftZ2A19ipimxDcFyb1JPhRtMTr9hwjZPRSSGx-lOSU4" // base64url.. from my mod..
   const replaceB64URL = (ch) => (ch === '+') ? '-' : '_'
 
   Twitch.send = async function (config) {
@@ -226,25 +228,6 @@ const Twitch = (function() {
         console.log(k, err[k])
     }   
   }
-
-  // Acquires extension oauth token
-  // const oauth_secret = "1pway03aps2dnnwkodad51qvisdmyl"
-  // const testToken = document.getElementById('twitch_token')
-  // testToken.addEventListener('click', (e) => {
-  //   const url = `https://id.twitch.tv/oauth2/token?_client_id=${_client_id}&client_secret=${oauth_secret}&grant_type=client_credentials`
-  //   axios({
-  //     url,
-  //     method: 'post',
-  //     // headers,
-  //     // data: body,
-  //   }).then((res) => {
-  //     console.log(res)
-  //   }).catch((e) => {
-  //     for (const k in e) {
-  //       console.log(k, e[k])
-  //     }
-  //   })
-  // })
 
   return Twitch
 })()

@@ -34,7 +34,7 @@
       display: flex;
       flex-flow: row wrap;
       align-items: center;
-      margin: 0 0 0.2em 0;
+      margin: 0 0 0.4em 0;
     }
     .section_bar:hover {}
     .connection__dot {
@@ -73,8 +73,9 @@
     }
     #twitch__channel_name:focus {}
     #twitch__error {
-      color: red;
+      color: #b22;
       font-weight: bold;
+      margin-top: 1em;
     }
     .noselect {
       -webkit-touch-callout: none;
@@ -102,7 +103,7 @@
         <label for="twitch__channel_name">
           <img id="twitch__user_edit" src="_assets/edit.svg" />
         </label>
-        <input type='text' id="twitch__channel_name" name="twitch__channel_name" placeholder="Twitch Channel" value="kruft" />
+        <input type='text' id="twitch__channel_name" name="twitch__channel_name" placeholder="Channel Name" />
       </div>
       <div id="twitch__connection" class="section_bar noselect">
         <div id="twitch__dot" class="connection__dot connection__dot--disconnected"></div>

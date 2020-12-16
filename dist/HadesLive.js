@@ -2105,7 +2105,6 @@
     return Hades
   })();
 
-
   const Twitch = (function() {
     const Twitch = {};
     const tmi = window.tmi;
@@ -2166,10 +2165,15 @@
         return
       }
 
+      _channel_name = twitch__channel_name.value;
+      if (!_channel_name) {
+        _twitch_error.textContent = 'Please enter a channel name.';
+        return
+      }
       _twitch_error.textContent = '';
       _status.textContent = 'Connecting...';
       _dot.className = 'connection__dot connection__dot--scanning';
-      _channel_name = twitch__channel_name.value;
+         
 
       axios$1({
         method: 'GET',
@@ -2249,25 +2253,6 @@
           console.log(k, err[k]);
       }   
     };
-
-    // Acquires extension oauth token
-    // const oauth_secret = "1pway03aps2dnnwkodad51qvisdmyl"
-    // const testToken = document.getElementById('twitch_token')
-    // testToken.addEventListener('click', (e) => {
-    //   const url = `https://id.twitch.tv/oauth2/token?_client_id=${_client_id}&client_secret=${oauth_secret}&grant_type=client_credentials`
-    //   axios({
-    //     url,
-    //     method: 'post',
-    //     // headers,
-    //     // data: body,
-    //   }).then((res) => {
-    //     console.log(res)
-    //   }).catch((e) => {
-    //     for (const k in e) {
-    //       console.log(k, e[k])
-    //     }
-    //   })
-    // })
 
     return Twitch
   })();
