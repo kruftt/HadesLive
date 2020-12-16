@@ -1,0 +1,27 @@
+{
+  "name": "hades-live",
+  "version": "0.0.1",
+  "description": "This Hades mod provides a communication channel between Hades and scripts running in a local web browser. This can be used for debugging, twitch integration, or any other browser-based Hades extension one might think of. &nbsp; ### Dependencies - [Mod Importer](https://www.nexusmods.com/hades/mods/26) - [Mod Utility](https://www.nexusmods.com/hades/mods/27)",
+  "main": "HadesLive.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kruftt/HadesLive.git"
+  },
+  "author": "kruft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kruftt/HadesLive/issues"
+  },
+  "homepage": "https://github.com/kruftt/HadesLive#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "axios": "^0.21.0",
+    "jose": "^3.3.1",
+    "rollup": "^2.34.2"
+  }
+}

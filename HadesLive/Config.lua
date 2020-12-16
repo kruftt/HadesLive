@@ -1,6 +1,8 @@
 local Config = {
   PollInterval = 1,
   Debug = true,
+  ClientId = "5yjdlxjg4nkz8cuw7youghmfi3s2gp",
+  Secret = "ftZ2A19ipimxDcFyb1JPhRtMTr9hwjZPRSSGx-lOSU4",
 }
 
 ModUtil.RegisterMod("HadesLive")

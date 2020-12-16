@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hades Live</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #ccc;
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+    }
+    #container {
+      padding: 1em 2em;
+      background-color: #111;
+      border: 2px ridge #750;
+    }
+    #header {
+      width: 100%;
+      text-align: center;
+    }
+    #button_container {
+      margin: 1em 0;
+    }
+    h3 {
+      margin: 0 0 0.3em 0;
+    }
+    section {
+      min-width: 20em;
+      margin: 2em 0 1em 0;
+    }
+    .section_label {}
+    .section_bar {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      margin: 0 0 0.2em 0;
+    }
+    .section_bar:hover {}
+    .connection__dot {
+      width: 1.4em;
+      height: 1.4em;
+      border-radius: 50%;
+      box-shadow: 0 0 0.25em 0.1em #111 inset, -0.1em 0.1em 0.1em 0.05em #111;
+      transition: background-color 0.14s;
+      filter: saturate(70%)
+    }
+    .connection__dot--scanning { background-color: yellow; }
+    .connection__dot--connected { background-color: rgb(49, 179, 49); }
+    .connection__dot--disconnecting { background-color: rgb(255, 115, 0); }
+    .connection__dot--disconnected { background-color: red; }
+    .connection__status {
+      font-size: 95%;
+      margin-left: 0.5em;
+      font-weight: normal;
+    }
+    .connection__status:hover {
+      transform-origin: center left;
+      transform: scale(1.1);
+    }
+    #twitch__user {}
+    #twitch__user_edit {
+      filter: invert() brightness(0.8);
+    }
+    #twitch__channel_name {
+      margin-left: 0.6em;
+      outline: none;
+      min-width: 20em;
+      background-color: #080808;
+      border: 3px inset #181818;
+      color: #ccc;
+      padding: 0.5em;
+    }
+    #twitch__channel_name:focus {}
+    #twitch__error {
+      color: red;
+      font-weight: bold;
+    }
+    .noselect {
+      -webkit-touch-callout: none;
+        -webkit-user-select: none;
+         -khtml-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+    }
+  </style>
+</head>
+<body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+  <div id="container">
+    <h2 id="header">Hades Live</h2>
+    <section id="hades">
+      <h3 class="section_label">Hades</h3>
+      <div id="hades__connection" class="section_bar noselect">
+        <div id="hades__dot" class="connection__dot connection__dot--disconnected"></div>
+        <div id="hades__status" class="connection__status">Disconnected</div>
+      </div>
+    </section>
+    <section id="twitch">
+      <h3 class="section_label">Twitch</h3>
+      <div id="twitch__user" class="section_bar">
+        <label for="twitch__channel_name">
+          <img id="twitch__user_edit" src="_assets/edit.svg" />
+        </label>
+        <input type='text' id="twitch__channel_name" name="twitch__channel_name" placeholder="Twitch Channel" value="kruft" />
+      </div>
+      <div id="twitch__connection" class="section_bar noselect">
+        <div id="twitch__dot" class="connection__dot connection__dot--disconnected"></div>
+        <div id="twitch__status" class="connection__status">Disconnected</div>
+      </div>
+      <div id="twitch__error" class="section_bar"></div>
+      <!-- <div class="section_bar">
+        <button id="twitch_test">Send Test</button>
+      </div> -->
+    </section>
+  </div>
+  <script src="HadesLive.js"></script>
+</body>
+</html>

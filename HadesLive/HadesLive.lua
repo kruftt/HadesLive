@@ -16,7 +16,7 @@ local monitorConnection = function ()
         local cb_arr = cb_arrs[payload.target]
         if cb_arr then
           for i, cb in ipairs(cb_arr) do
-            cb(payload.message)
+            cb(payload)
           end
         end
       end
@@ -27,65 +27,24 @@ end
 thread(monitorConnection)
 
 
-HadesLive.send = function (target, message)
+HadesLive.send = function (config)
   if Connection.Status ~= 'open' then
     log('WARNING - Failed to send message, connection closed.')
     return
   end
-
-  Connection.Send(json.encode({ target = target, message = message }))
+  Connection.Send(json.encode(config))
 end
 
-HadesLive.listen = function (target, callback)
+HadesLive.on = function (target, callback)
   local cb_arr = cb_arrs[target] or {}
   table.insert(cb_arr, callback)
   cb_arrs[target] = cb_arr
-end
-
-HadesLive.unlisten = function (target, callback)
-  local cb_arr = cb_arrs[target]
-  if not cb_arr then return end
-  for i, cb in ipairs(cb_arr) do
-    if cb == callback then
-      table.remove(cb_arr, i)
-      return
+  return function ()
+    for i, cb in ipairs(cb_arr) do
+      if cb == callback then
+        table.remove(cb_arr, i)
+        return
+      end
     end
-  end
-end
-
-
-
-local twitch_cb_arrs = {}
-
-HadesLive.sendTwitch = function (target, message)
-  HadesLive.Send('twitch-send', { target = target, message = message })
-end
-
-HadesLive.listenTwitch = function (target, callback)
-  local cb_arr = twitch_cb_arrs[target] or {}
-  table.insert(cb_arr, callback)
-  cb_arrs[target] = cb_arrs
-  HadesLive.send('twitch-listen', target)
-end
-
-local twitchCallback = function (payload)
-  local cb_arr = twitch_cb_arrs[payload.target]
-  if not cb_arr then return end
-  for i, cb in ipairs(cb_arr) do
-    cb(payload.message)
-  end
-end
-
-HadesLive.listen('twitch', twitchCallback)
-
-HadesLive.unlistenTwitch = function (target, callback)
-  local cb_arr = twitch_cb_arrs[target]
-  if not cb_arr then return end
-  for i, cb in ipairs(cb_arr) do
-    if cb == callback then
-      table.remove(cb_arr, i)
-      return
-    end
-  end
-  HadesLive.send('twitch-unlisten', target)
+  end  
 end

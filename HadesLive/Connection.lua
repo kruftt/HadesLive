@@ -10,17 +10,15 @@ local rshift = bit.rshift
 local lshift = bit.lshift
 local band = bit.band
 local bxor = bit.bxor
-
+local bor = bit.bor
 local guid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 local MAX_MESSAGE_SIZE = 0xffffffff
-local client
+local Connection = { Status = 'closed' }
+local ch, line, sent, err, client
 local server = assert(socket.bind("*", 55666))
 local ip, port = server:getsockname()
 server:settimeout(0)
 log("Listening for connections at: "..ip..":"..port)
-
-local Connection = { Status = 'closed' }
-local ch, line, sent, err
 
 
 local makeHandshake = function ()
@@ -115,7 +113,7 @@ Connection.Send = function (msg)
     end
     sent, err = client:send(msg)
     if sent then
-      log('sent: '..sent..' bytes.')
+      log('sent: '..sent..' bytes')
     end
   end
   if err then Connection.Close() end
@@ -132,13 +130,14 @@ Connection.Receive = function ()
   -- if ch == 0x89 -- Ping
   -- if ch == 0x8a -- Pong
   if ch ~= char(0x81) then
-    log('INVALID FRAME HEADER')
     Connection.Close()
     return
   end -- Make sure this is a text frame
 
   ch, err = client:receive(1)
-  if band(byte(ch), 0x80) == 0 then return end -- Masking bit not flipped
+  if band(byte(ch), 0x80) == 0 then
+    return
+  end -- Masking bit not flipped
   local n = band(byte(ch), 0x7f)
 
   local msg_len
@@ -146,13 +145,13 @@ Connection.Receive = function ()
     msg_len = n
   elseif n == 126 then
     msg_len, err = client:receive(2)
-    msg_len = band(
+    msg_len = bor(
       lshift(byte(msg_len), 8),
       byte(msg_len, 2)
     )
   else
     msg_len, err = client:receive(8)
-    msg_len = band(
+    msg_len = bor(
       lshift(byte(msg_len, 5), 24),
       lshift(byte(msg_len, 6), 16),
       lshift(byte(msg_len, 7), 8),
@@ -186,6 +185,8 @@ Connection.Receive = function ()
     return
   end
 
+  log('received: '..msg_len..' bytes')
+  if msg_len == 0 then return nil end
   return json.decode(table.concat(msg))
 end
 
