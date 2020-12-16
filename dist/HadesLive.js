@@ -2258,17 +2258,17 @@
   })();
 
 
-  Twitch.onMessage((channel, tags, message, self) => {
-    console.log('forwarding message', channel, tags, message);
-    Hades.send({ target: 'twitch', channel, tags, message });
+  Hades.on('console', console.log);
+  Hades.on('twitch', Twitch.send);
+
+  Twitch.onMessage((channel, userstate, message, self) => {
+    console.log('forwarding message', channel, userstate, message);
+    Hades.send({ target: 'twitch', channel, userstate, message });
   });
   Twitch.onRawMessage((messageCloned, message) => {
-    if (messageCloned.command === "PONG") return
+    if ("PINGPONG".indexOf(messageCloned.command) !== -1) return
     console.log('forwarding raw message:', messageCloned);
     Hades.send({ target: 'twitch_raw', message: messageCloned });
-  });
-  Hades.on('twitch', (data) => {
-    Twitch.send(message);
   });
 
 }());
