@@ -2208,7 +2208,8 @@
 
     Twitch.send = async function (config) {
       if (!config.client_id || !config.secret || !config.message) {
-        _twitch_error.textContent = 'Twitch.send requires a client_id, secret, and message.';
+        const missing = [(config.client_id ? '' : 'client_id'), (config.secret ? '' : 'secret'), (config.message ? '' : 'message') ];
+        _twitch_error.textContent = `Twitch.send requires a client_id, a secret, and a message.\nMissing: ${ missing.join(' ') }`;
         return
       }
       
