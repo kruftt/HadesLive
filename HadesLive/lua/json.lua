@@ -61,22 +61,33 @@ local function encode_table(val, stack)
   stack = stack or {}
 
   -- Circular reference?
-  if stack[val] then error("circular reference") end
+  if stack[val] then
+    print("circular reference")
+    error("circular reference")
+  end
 
   stack[val] = true
 
+  local is_array = false
   if rawget(val, 1) ~= nil or next(val) == nil then
+    local success = true
     -- Treat as array -- check keys are valid and it is not sparse
     local n = 0
     for k in pairs(val) do
       if type(k) ~= "number" then
-        error("invalid table: mixed or invalid key types")
+        -- error("invalid table: mixed or invalid key types")
+        success = false
       end
       n = n + 1
     end
     if n ~= #val then
-      error("invalid table: sparse array")
+      success = false
+      -- error("invalid table: sparse array")
     end
+    if success then is_array = true end
+  end
+    
+  if is_array then
     -- Encode
     for i, v in ipairs(val) do
       table.insert(res, encode(v, stack))
@@ -88,7 +99,8 @@ local function encode_table(val, stack)
     -- Treat as an object
     for k, v in pairs(val) do
       if type(k) ~= "string" then
-        error("invalid table: mixed or invalid key types")
+        --   error("invalid table: mixed or invalid key types")
+        k = tostring(k)
       end
       table.insert(res, encode(k, stack) .. ":" .. encode(v, stack))
     end

@@ -33,12 +33,7 @@ HadesLive.send = function (config)
     return
   end
   
-  log(TableToJSONString(config))
-  log('Encoding')
-  log(json.encode)
-  local encoded = json.encode(config)
-  log('Sending')
-  Connection.Send(encoded)
+  Connection.Send(json.encode(config))
 end
 
 HadesLive.on = function (target, callback)
