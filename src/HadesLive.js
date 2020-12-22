@@ -81,23 +81,24 @@ const Hades = (function () {
 })()
 
 const Twitch = (function() {
-  const Twitch = {}
   const tmi = window.tmi
+  const Twitch = {}
+  const message_cbs = []
+  const raw_message_cbs = []
+  const _dot = document.getElementById('twitch__dot')
+  const _status = document.getElementById('twitch__status')
+  const _connection = document.getElementById('twitch__connection')
   const twitch__channel_name = document.getElementById('twitch__channel_name')
+  const _twitch_error = document.getElementById('twitch__error')
+
   twitch__channel_name.addEventListener('focus', () => twitch__channel_name.select())
   twitch__channel_name.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       twitch__channel_name.blur()
       e.stopPropagation()
+      _connection.click()
     }
   })
-
-  const _dot = document.getElementById('twitch__dot')
-  const _status = document.getElementById('twitch__status')
-  const _connection = document.getElementById('twitch__connection')
-  const _twitch_error = document.getElementById('twitch__error')
-  const message_cbs = []
-  const raw_message_cbs = []
   
   Twitch.onMessage = function (callback) {
     message_cbs.push(callback)
@@ -182,9 +183,9 @@ const Twitch = (function() {
   const replaceB64URL = (ch) => (ch === '+') ? '-' : '_'
 
   Twitch.send = async function (config) {
-    if (!config.client_id || !config.secret || !config.message) {
-      const missing = [(config.client_id ? '' : 'client_id'), (config.secret ? '' : 'secret'), (config.message ? '' : 'message') ]
-      _twitch_error.textContent = `Twitch.send requires a client_id, a secret, and a message.\nMissing: ${ missing.join(' ') }`
+    if (!_channel_id || !config.client_id || !config.secret || !config.message) {
+      const missing = [(_channel_id ? '' : 'Channel') (config.client_id ? '' : 'client_id'), (config.secret ? '' : 'secret'), (config.message ? '' : 'message')]
+      _twitch_error.textContent = `Twitch.send requires a Channel, client_id, a secret, and a message.\nMissing: ${ missing.join(' ') }`
       return
     }
     
@@ -216,7 +217,7 @@ const Twitch = (function() {
       })
     } catch (err) {
       if (err.response)
-        _twitch_error.textContent = `${e.response.status} ${e.response.data}`
+        _twitch_error.textContent = `${err.response.status} ${err.response.data.message}`
       else
         _twitch_error.textContent = err
 
